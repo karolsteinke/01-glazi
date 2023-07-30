@@ -4,13 +4,14 @@ using UnityEngine;
 
 public class DebugMovement : MonoBehaviour
 {
-    public enum MovementEnum {
+    [SerializeField] private enum MovementEnum {
         PosOnAbsoluteTime = 0,
         VelIgnoringFramerate = 1,
         VelIncludingFramerate = 2,
         PosOnFrames =3
     }
-    public MovementEnum movementType = MovementEnum.PosOnAbsoluteTime;
+    [SerializeField] private MovementEnum movementType = MovementEnum.PosOnAbsoluteTime;
+    [SerializeField] private float expectedFPS = 60.0f;
     private Rigidbody2D _body;
     private float prevClock = 0.0f;
 
@@ -40,13 +41,13 @@ public class DebugMovement : MonoBehaviour
         }
         else if (movementType == MovementEnum.VelIncludingFramerate) {
             //velocity is adjusted constantly to include fluctuating framerate
-            //vel shoud be 0.76f when deltaTime is 0.0166sec (60fps)
-            _body.velocity = new Vector2(45.6f * Time.deltaTime, 0.0f);
+            //vel should be 0.76f (avgFPS * deltaTime should be 1)
+            _body.velocity = new Vector2(0.76f * expectedFPS * Time.deltaTime, 0.0f);
         }
         else if (movementType == MovementEnum.PosOnFrames) {
             //it changes position every frame by const value
-            //0.0126f is distance for 1 frame (6.08units / (8sec * 60frames))
-            float posX = _body.position.x + 0.0126f;
+            //6.08units is distance to be travelled in 8 sec
+            float posX = _body.position.x + 6.08f / (8.0f * expectedFPS);
             _body.position = new Vector2(posX, _body.position.y);
         }
     }

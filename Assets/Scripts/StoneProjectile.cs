@@ -5,13 +5,17 @@ using UnityEngine;
 public class StoneProjectile : MonoBehaviour
 {
     public bool fired {get; private set;}
+    public bool dying {get; private set;}
     private Rigidbody2D _body;
     private BoxCollider2D _box;
+    private SpriteRenderer _sprite;
 
     void Start() {
         _body = GetComponent<Rigidbody2D>();
         _box = GetComponent<BoxCollider2D>();
+        _sprite = GetComponent<SpriteRenderer>();
         fired = false;
+        dying = false;
     }
 
     
@@ -27,25 +31,27 @@ public class StoneProjectile : MonoBehaviour
         _body.constraints = RigidbodyConstraints2D.None;
         _body.constraints = RigidbodyConstraints2D.FreezeRotation;
         _box.usedByEffector = false;
-        //_box.isTrigger = true;
         _body.AddForce(direction, ForceMode2D.Impulse);
         fired = true;
     }
 
-    /*
-    void OnTriggerEnter2D(Collider2D other) {
-        ReactiveTarget target = other.gameObject.GetComponent<ReactiveTarget>();
+    void OnCollisionEnter2D(Collision2D col) {
+        //inform any reactiveTarget that it was hit
+        ReactiveTarget target = col.gameObject.GetComponent<ReactiveTarget>();
         if (target != null) {
             target.ReactToHit();
         }
-        
-        Destroy(this.gameObject);
-	}
-    */
 
-    /*
-    void OnCollisionEnter2D(Collision2D col) {
-        Debug.Log("col");
+        //erase yourself
+        if (!dying) {
+            _sprite.color = Color.yellow;
+            dying = true;
+            StartCoroutine(Die());
+        }
     }
-    */
+
+    private IEnumerator Die() {
+        yield return new WaitForSeconds(.5f);
+        Destroy(this.gameObject);
+    }
 }

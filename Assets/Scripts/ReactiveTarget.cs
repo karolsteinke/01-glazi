@@ -24,13 +24,12 @@ public class ReactiveTarget : MonoBehaviour
     }
 
     private IEnumerator Die() {
-        //blink 2x
-        whiteSprite();
-        yield return new WaitForSeconds(.1f);
-        normalSprite();
-        yield return new WaitForSeconds(.2f);
-        whiteSprite();
-        yield return new WaitForSeconds(.1f);
+        //blink 3x
+        whiteSprite();  yield return new WaitForSeconds(.1f);
+        normalSprite(); yield return new WaitForSeconds(.2f);
+        whiteSprite();  yield return new WaitForSeconds(.1f);
+        normalSprite(); yield return new WaitForSeconds(.2f);
+        whiteSprite();  yield return new WaitForSeconds(.1f);
 
         Destroy(this.gameObject);
     }

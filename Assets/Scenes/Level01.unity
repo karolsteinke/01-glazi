@@ -4478,13 +4478,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 54f9092e419a3154fb597907cdc3ab14, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  redSpawnerPrefab: {fileID: 4168275325998166935, guid: 41958d24ac35dddc581e46780e9f3d10, type: 3}
-  blueSpawnerPrefab: {fileID: 0}
-  flagPrefab: {fileID: 5606327409984079037, guid: 817a14ee488dc3152af1ff21c00dfb1a, type: 3}
+  spawnerPrefab: {fileID: 2844578027042717447, guid: 81c224eb3452f3548a27893fc9c18199, type: 3}
+  pickupPrefab: {fileID: 1478123013780371623, guid: 10b5f33b386a54247ab98384df4bf986, type: 3}
   redSpawnTime: 5
-  redSpawnSpots:
-  - {x: 2.72, y: 1.6, z: 0}
-  - {x: -2.72, y: 1.6, z: 0}
 --- !u!4 &1795943671
 Transform:
   m_ObjectHideFlags: 0

@@ -4,8 +4,13 @@ using UnityEngine;
 
 public class MobSpawner : MonoBehaviour
 {
-    [SerializeField] private float spawnTime = 3.0f;
-    [SerializeField] private GameObject mobPrefab;
+    public enum MobTypes {
+        Red = 0,
+        Blue = 1
+    }
+    public MobTypes mobType = MobTypes.Red;
+    [SerializeField] private float spawnTime = 1.5f;
+    [SerializeField] private GameObject[] mobPrefabs = new GameObject[2];
     private GameObject _mob;
 
     void Start() {
@@ -14,7 +19,7 @@ public class MobSpawner : MonoBehaviour
 
     private IEnumerator SpawnAndDie() {
         yield return new WaitForSeconds(spawnTime);
-        _mob = Instantiate(mobPrefab) as GameObject;
+        _mob = Instantiate(mobPrefabs[(int)mobType]) as GameObject;
         _mob.transform.position = transform.position;
         Destroy(gameObject);
     }

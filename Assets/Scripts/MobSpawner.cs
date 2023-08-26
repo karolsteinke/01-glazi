@@ -5,10 +5,10 @@ using UnityEngine;
 public class MobSpawner : MonoBehaviour
 {
     public enum MobTypes {
-        Red = 0,
+        Green = 0,
         Blue = 1
     }
-    public MobTypes mobType = MobTypes.Red;
+    public MobTypes mobType = MobTypes.Green;
     [SerializeField] private float spawnTime = 1.5f;
     [SerializeField] private GameObject[] mobPrefabs = new GameObject[2];
     private GameObject _mob;

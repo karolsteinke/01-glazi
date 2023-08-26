@@ -24,17 +24,17 @@ public class WanderingAI : MonoBehaviour
         Vector3 max = _box.bounds.max;
         Vector3 min = _box.bounds.min;
         Vector2 corner1 = new Vector2(max.x, min.y-.021f);
-        Vector2 corner2 = new Vector2(min.x, min.y-.040f);
+        Vector2 corner2 = new Vector2(min.x, min.y-.1f);
         Collider2D hit = Physics2D.OverlapArea(corner1, corner2);
         bool _groundedNewValue = hit != null;
         
-        //pick new random facing direction when juts landed
-        if (_grounded != _groundedNewValue) {
+        //pick new random facing direction when just appeared or just landed
+        if (!_grounded && _groundedNewValue) {
             _facingRight = Random.value > .5;
         }
         _grounded = _groundedNewValue;
 
-        //set velocity vector
+        //lerp velocity vector to 'speed' value
         if (_grounded) {
             if (_facingRight)
                 _velX = Mathf.Lerp(_velX, speed, acc * Time.deltaTime);
@@ -46,9 +46,13 @@ public class WanderingAI : MonoBehaviour
         }
         //change direction when at the scene edge
         var posX = transform.position.x;
-        if (posX > 3.1f || posX < -3.1f) {
-            _facingRight = !_facingRight;
-            _velX = -_velX;
+        if (posX > 3.1f) {
+            _facingRight = false;
+            _velX = -speed;
+        }
+        else if (posX < -3.1f) {
+            _facingRight = true;
+            _velX = speed;
         }
         _body.velocity = new Vector2(_velX, _body.velocity.y);
 

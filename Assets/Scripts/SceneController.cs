@@ -77,7 +77,7 @@ public class SceneController : MonoBehaviour
                 if (pickup != broadcaster) {
                     CreateSpawner(MobSpawner.MobTypes.Blue, pickup.transform.position);
                 }
-                Destroy(pickup.gameObject);
+                pickup.Die();
             }
         }
         StartCoroutine(CreatePickups());

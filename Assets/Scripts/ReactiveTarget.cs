@@ -21,11 +21,11 @@ public class ReactiveTarget : MonoBehaviour
     public void ReactToHit() {
         if (!dying) {
             dying = true;
-            StartCoroutine(Die());
+            StartCoroutine(BlinkToDie());
         }
     }
 
-    private IEnumerator Die() {
+    private IEnumerator BlinkToDie() {
         //blink 3x
         whiteSprite();  yield return new WaitForSeconds(.1f);
         normalSprite(); yield return new WaitForSeconds(.2f);
@@ -33,6 +33,10 @@ public class ReactiveTarget : MonoBehaviour
         normalSprite(); yield return new WaitForSeconds(.2f);
         whiteSprite();  yield return new WaitForSeconds(.1f);
 
+        Die();
+    }
+
+    public void Die() {
         Destroy(this.gameObject);
     }
 

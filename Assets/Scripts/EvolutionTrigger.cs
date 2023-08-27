@@ -9,6 +9,8 @@ public class EvolutionTrigger : MonoBehaviour
         TRANSPARENT,
         HIDDEN
     }
+    [SerializeField] private GameObject particlesPrefab;
+    [SerializeField] private GameObject mobPrefab;
     private States _state;
     private Transform _player;
     private SpriteRenderer _sprite;
@@ -46,8 +48,23 @@ public class EvolutionTrigger : MonoBehaviour
         }
     }
 
+    void OnTriggerEnter2D(Collider2D col) {
+        ReactiveTarget mob = col.gameObject.GetComponent<ReactiveTarget>();
+        //execute only for green and blue mobs
+        if (mob && mob.transform.localScale.y == 1) {
+            //create particles
+            GameObject particles = GameObject.Instantiate(particlesPrefab) as GameObject;
+            particles.transform.position = transform.position;
+
+            //evolve old mob to new mob
+            mob.Die();
+            GameObject mobEvolved = GameObject.Instantiate(mobPrefab) as GameObject;
+            mobEvolved.transform.position = transform.position;
+        }
+    }
+
     private IEnumerator RevealAfterWait() {
-        yield return new WaitForSeconds(5.0f);
+        yield return new WaitForSeconds(3.0f);
         _sprite.enabled = true;
     }
 }

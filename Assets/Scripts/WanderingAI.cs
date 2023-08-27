@@ -21,14 +21,16 @@ public class WanderingAI : MonoBehaviour
 
     void FixedUpdate() {
         //detect if grounded
+        //its overlap area is alway "under" the feet, according to local scale
         Vector3 max = _box.bounds.max;
         Vector3 min = _box.bounds.min;
-        Vector2 corner1 = new Vector2(max.x, min.y-.021f);
-        Vector2 corner2 = new Vector2(min.x, min.y-.1f);
+        Vector3 center = _box.bounds.center;
+        Vector2 corner1 = new Vector2(max.x, center.y - 0.161f * transform.localScale.y);
+        Vector2 corner2 = new Vector2(min.x, center.y - 0.240f * transform.localScale.y);
         Collider2D hit = Physics2D.OverlapArea(corner1, corner2);
         bool _groundedNewValue = hit != null;
-        
-        //pick new random facing direction when just appeared or just landed
+
+        //pick new random facing direction when just landed
         if (!_grounded && _groundedNewValue) {
             _facingRight = Random.value > .5;
         }
@@ -56,16 +58,19 @@ public class WanderingAI : MonoBehaviour
         }
         _body.velocity = new Vector2(_velX, _body.velocity.y);
 
+        //destroy if outside the scene
+        var posY = transform.position.y;
+        if (posY > 2.5f) {
+            Messenger.Broadcast(GameEvent.ENEMY_ESCAPED);
+            Destroy(this.gameObject);
+        }
+
         //set animator's parameter
         _anim.SetFloat("velX", Mathf.Abs(_velX));
 
         //face sprite to velocity
         if (!Mathf.Approximately(_velX, 0)) {
-            transform.localScale = new Vector3(Mathf.Sign(_velX),1,1);
+            transform.localScale = new Vector3(Mathf.Sign(_velX), transform.localScale.y, transform.localScale.z);
         }
-    }
-
-    void Update() {
-
     }
 }

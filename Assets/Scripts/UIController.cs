@@ -11,10 +11,12 @@ public class UIController : MonoBehaviour
     void Start()
     {
         Messenger<BroadcastingPickup>.AddListener(GameEvent.PICKUP_COLLECTED, OnPickupCollected);
+        Messenger.AddListener(GameEvent.ENEMY_ESCAPED, OnEnemyEscaped);
     }
 
     void OnDestroy() {
         Messenger<BroadcastingPickup>.RemoveListener(GameEvent.PICKUP_COLLECTED, OnPickupCollected);
+        Messenger.RemoveListener(GameEvent.ENEMY_ESCAPED, OnEnemyEscaped);
     }
 
     private void OnPickupCollected(BroadcastingPickup broadcaster) {
@@ -23,5 +25,10 @@ public class UIController : MonoBehaviour
         if (!scoreLabel.gameObject.activeSelf) {
             scoreLabel.gameObject.SetActive(true);
         }
+    }
+
+    private void OnEnemyEscaped() {
+        _score--;
+        scoreLabel.text = "" + _score;
     }
 }

@@ -36,6 +36,7 @@ public class ReactiveTarget : MonoBehaviour
         Die();
     }
 
+    //public Die() method to be called by itself and EvolutionTrigger
     public void Die() {
         Destroy(this.gameObject);
     }

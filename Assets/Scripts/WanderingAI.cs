@@ -58,7 +58,7 @@ public class WanderingAI : MonoBehaviour
         }
         _body.velocity = new Vector2(_velX, _body.velocity.y);
 
-        //destroy if outside the scene
+        //destroy if it escaped through the top of the scene
         var posY = transform.position.y;
         if (posY > 2.5f) {
             Messenger.Broadcast(GameEvent.ENEMY_ESCAPED);

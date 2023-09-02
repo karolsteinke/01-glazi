@@ -9,20 +9,29 @@ public class HardcodedParticles : MonoBehaviour
             Transform pivot = gameObject.transform.GetChild(i);
             Transform particle = pivot.GetChild(0);
 
+            /*
             pivot.localEulerAngles = new Vector3(
                 pivot.localEulerAngles.x,
                 pivot.localEulerAngles.y,
                 pivot.localEulerAngles.z + Random.value * 90.0f
             );
+            */
             
             Vector3 offset = particle.position - transform.position;
-            particle.gameObject.GetComponent<Rigidbody2D>().velocity = offset * 40.0f;            
+            particle.gameObject.GetComponent<Rigidbody2D>().velocity = offset * 80.0f;
         }
         StartCoroutine(WaitAndDie());
     }
 
+    void FixedUpdate() {
+        for (int i=0; i < gameObject.transform.childCount; i++) {
+            Rigidbody2D particle = gameObject.transform.GetChild(i).GetChild(0).GetComponent<Rigidbody2D>();
+            particle.velocity *= 0.88f;
+        }
+    }
+
     private IEnumerator WaitAndDie() {
-        yield return new WaitForSeconds(0.3f);
+        yield return new WaitForSeconds(0.4f);
         Destroy(gameObject);
     }
 }

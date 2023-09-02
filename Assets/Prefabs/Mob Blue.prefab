@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 545283558201375391}
   - component: {fileID: 545283558201375384}
   - component: {fileID: 545283558201375385}
+  - component: {fileID: 3725813809485314253}
   m_Layer: 6
   m_Name: Mob Blue
   m_TagString: Untagged
@@ -30,7 +31,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 545283558201375460}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.5190299, y: 0.97835064, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -148,7 +149,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c98eccd0b321c9aba82477b802072f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 0.84
+  speed: 0.56
   acc: 5
 --- !u!114 &545283558201375384
 MonoBehaviour:
@@ -183,3 +184,16 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &3725813809485314253
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 545283558201375460}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dcf82276a2e3b691da17bd046736e13f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bulletPrefab: {fileID: 3411652632909138418, guid: da63dcf8fda7ebadb96a742293e5ed03, type: 3}

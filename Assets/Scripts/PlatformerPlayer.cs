@@ -19,7 +19,7 @@ public class PlatformerPlayer : MonoBehaviour {
 
     //MonoBehaviour.FixedUpdate has the frequency of the physics system (50fps)
     void FixedUpdate() {
-        //set 'movement' - a vector of speed
+        //set 'movement' - a velocity vector based on user input
         float velX = Input.GetAxis("Horizontal") * speed;
         Vector2 movement = new Vector2(velX, _body.velocity.y);
         _body.velocity = movement;
@@ -32,13 +32,16 @@ public class PlatformerPlayer : MonoBehaviour {
             transform.localScale = new Vector3(Mathf.Sign(velX),1,1);
         }
 
-        //turn off gravity when grounded
+ 
+        //turn off gravity when idle to stop sliding off slopes
+        //velocity.y is also considered to make sure player is not flying upwards slowly
         if ((_grounded && velX == 0) && _body.velocity.y <= 0) {
             _body.gravityScale = 0;
         }
         else {
             _body.gravityScale = 1;
         }
+ 
     }
 
     void Update() {
@@ -46,12 +49,17 @@ public class PlatformerPlayer : MonoBehaviour {
         Vector3 max = _box.bounds.max;
         Vector3 min = _box.bounds.min;
         Vector2 corner1 = new Vector2(max.x, min.y-.021f);
-        Vector2 corner2 = new Vector2(min.x, min.y-.040f);
+        Vector2 corner2 = new Vector2(min.x, min.y-.060f);
         Collider2D hit = Physics2D.OverlapArea(corner1, corner2);
         _grounded = hit != null;
+
         /*
-        //DEBUG DRAW LINE
-        UnityEngine.Debug.DrawLine(corner1, corner2,  Color.red);
+        //DEBUG DRAW OVERLAP AREA
+        if (_grounded) {
+            UnityEngine.Debug.DrawLine(new Vector3(-3.2f,0,0), new Vector3(3.2f,0,0),  Color.red);
+        }
+        UnityEngine.Debug.DrawLine(corner1, new Vector3(corner2.x,corner1.y,0),  Color.red);
+        UnityEngine.Debug.DrawLine(new Vector3(corner1.x,corner2.y,0), corner2,  Color.red);
         */
 
         //jumping

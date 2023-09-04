@@ -44,7 +44,7 @@ public class StoneProjectile : MonoBehaviour
 
         //erase yourself
         if (!dying) {
-            _sprite.color = Color.yellow;
+            _sprite.color = new Color(.8f,.8f,.8f,.5f);
             dying = true;
             StartCoroutine(Die());
         }

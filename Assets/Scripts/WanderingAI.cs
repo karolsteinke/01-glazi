@@ -21,7 +21,7 @@ public class WanderingAI : MonoBehaviour
 
     void FixedUpdate() {
         //detect if grounded
-        //its overlap area is alway "under" the feet, according to local scale
+        //its overlap area is alway under or above the feet, according to local scale
         Vector3 max = _box.bounds.max;
         Vector3 min = _box.bounds.min;
         Vector3 center = _box.bounds.center;

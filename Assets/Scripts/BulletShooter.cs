@@ -5,28 +5,38 @@ using UnityEngine;
 public class BulletShooter : MonoBehaviour
 {
     [SerializeField] private GameObject bulletPrefab;
-    private bool preparing = false;
+    private bool reloading = false;
+    private SpriteRenderer _sprite;
+    private Shader _shaderGUIText;
+    private Shader _shaderSpritesDefault;
+    private Color _startColor;
 
     void Start() {
-        
+        _sprite = GetComponent<SpriteRenderer>();
+        _shaderGUIText = Shader.Find("GUI/Text Shader");
+        _shaderSpritesDefault = Shader.Find("Sprites/Default");
+        _startColor = _sprite.color;
     }
 
     void FixedUpdate() {
         RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.right * transform.localScale.x, 1.92f, LayerMask.GetMask("Player"));
 
-        if (hit.collider && !preparing) {
-            StartCoroutine(WaitAndShoot());
+        if (hit.collider && !reloading) {
+            StartCoroutine(ShootAndReload());
         }
     }
 
-    private IEnumerator WaitAndShoot() {
-        preparing = true;
-        yield return new WaitForSeconds(0.2f);
+    private IEnumerator ShootAndReload() {
+        reloading = true;
         
+        RedSprite();
+        yield return new WaitForSeconds(.1f);
+        DimmedSprite();
+
         GameObject bullet = Instantiate(bulletPrefab) as GameObject;
         bullet.transform.position = new Vector3(
-            transform.position.x + transform.localScale.x * 0.24f,
-            transform.position.y,
+            transform.position.x + transform.localScale.x * 0.08f,
+            Mathf.Round(transform.position.y / .32f) * .32f,
             transform.position.z
         );
         bullet.transform.localScale = new Vector3(
@@ -35,7 +45,24 @@ public class BulletShooter : MonoBehaviour
             bullet.transform.localScale.z
         );
 
-        yield return new WaitForSeconds(1.0f);
-        preparing = false;
+        yield return new WaitForSeconds(1.8f);
+        NormalSprite();
+        yield return new WaitForSeconds(0.2f);
+        reloading = false;
+    }
+
+    private void NormalSprite() {
+        _sprite.material.shader = _shaderSpritesDefault;
+        _sprite.color = _startColor;
+    }
+
+    private void DimmedSprite() {
+        _sprite.material.shader = _shaderSpritesDefault;
+        _sprite.color = new Color(0,.35f,.55f);
+    }
+
+    private void RedSprite() {
+        _sprite.material.shader = _shaderGUIText;
+        _sprite.color = Color.red;
     }
 }

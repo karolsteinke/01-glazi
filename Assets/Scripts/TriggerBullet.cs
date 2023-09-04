@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class TriggerBullet : MonoBehaviour
 {
-    [SerializeField] private float _speed = 0.2f;
+    [SerializeField] private float _speed = 0.3f;
     private SpriteRenderer _sprite;
     private SpriteRenderer _tailSprite;
     private Color _startColor;
@@ -33,11 +33,11 @@ public class TriggerBullet : MonoBehaviour
 
     private IEnumerator Blink() {
         while (true) {
+            _sprite.color = Color.red;
+            _tailSprite.color = Color.red;
+            yield return new WaitForSeconds(.3f);
             _sprite.color = _startColor;
             _tailSprite.color = _startColor;
-            yield return new WaitForSeconds(.3f);
-            _sprite.color = Color.white;
-            _tailSprite.color = Color.white;
             yield return new WaitForSeconds(.1f);
         }
     }

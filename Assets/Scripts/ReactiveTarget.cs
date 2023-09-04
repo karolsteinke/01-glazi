@@ -27,11 +27,11 @@ public class ReactiveTarget : MonoBehaviour
 
     private IEnumerator BlinkToDie() {
         //blink 3x
-        whiteSprite();  yield return new WaitForSeconds(.1f);
-        normalSprite(); yield return new WaitForSeconds(.2f);
-        whiteSprite();  yield return new WaitForSeconds(.1f);
-        normalSprite(); yield return new WaitForSeconds(.2f);
-        whiteSprite();  yield return new WaitForSeconds(.1f);
+        WhiteSprite();  yield return new WaitForSeconds(.1f);
+        NormalSprite(); yield return new WaitForSeconds(.2f);
+        WhiteSprite();  yield return new WaitForSeconds(.1f);
+        NormalSprite(); yield return new WaitForSeconds(.2f);
+        WhiteSprite();  yield return new WaitForSeconds(.1f);
 
         Die();
     }
@@ -41,12 +41,12 @@ public class ReactiveTarget : MonoBehaviour
         Destroy(this.gameObject);
     }
 
-    private void whiteSprite() {
+    private void WhiteSprite() {
         _sprite.material.shader = _shaderGUIText;
         _sprite.color = Color.white;
     }
 
-    private void normalSprite() {
+    private void NormalSprite() {
         _sprite.material.shader = _shaderSpritesDefault;
         _sprite.color = _startColor;
     }

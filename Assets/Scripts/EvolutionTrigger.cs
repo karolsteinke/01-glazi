@@ -51,7 +51,7 @@ public class EvolutionTrigger : MonoBehaviour
     void OnTriggerEnter2D(Collider2D col) {
         ReactiveTarget mob = col.gameObject.GetComponent<ReactiveTarget>();
         //execute only for green and blue mobs
-        if (mob && mob.transform.localScale.y == 1) {
+        if (mob && mob.transform.localScale.y == 1 && !mob.dying) {
             //create particles
             GameObject particles = GameObject.Instantiate(particlesPrefab) as GameObject;
             particles.transform.position = transform.position;

@@ -75,4 +75,14 @@ public class PlatformerPlayer : MonoBehaviour {
             Messenger.Broadcast(GameEvent.PLAYER_HIT);
         }
     }
+
+    //to be called by Scene Controller
+    public void Die() {
+        gameObject.GetComponent<SpriteRenderer>().color = new Color(1f,1f,1f,.5f);
+        Destroy(_body);
+        Destroy(_box);
+        Destroy(_anim);
+        Destroy(gameObject.GetComponent<StoneCaster>());
+        Destroy(this);
+    }
 }

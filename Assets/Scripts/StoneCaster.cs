@@ -36,21 +36,7 @@ public class StoneCaster : MonoBehaviour
                 _crosshair.gameObject.SetActive(true);
             }
         }
-        /*
-        //DEBUG DRAW CROSSHAIR LINE
-        Vector3 pos = _body.position;
-        UnityEngine.Debug.DrawLine(pos, new Vector3(pos.x + _body.velocity.x/3, pos.y + _body.velocity.y/3, 0f),  Color.red);
-        UnityEngine.Debug.DrawLine(pos, new Vector3(pos.x + _heading.x/3, pos.y + _heading.y/3, 0f),  Color.blue);
-        */
     }
-
-    /*
-    void OnGUI() {
-        if (_fbRotationPivot != null) {
-	        GUI.Label( new Rect(10, 10, 100, 20), "" + Mathf.Clamp(Vector3.Dot(_body.velocity.normalized,_heading.normalized), 0f, 1.0f));
-        }
-    }
-    */
 
     void Update() {
         if (Input.GetKeyDown(KeyCode.X))
@@ -71,15 +57,18 @@ public class StoneCaster : MonoBehaviour
             }
         }
 
-        //set fire power and set fireBar rotation and length
         if (_fbRotationPivot != null) {
+            //set fire power
+            //calculate 'modifier' (0-1) - dot product of player's body and heading vector
             _heading = _stone.gameObject.transform.position - transform.position;
             float modifier = Mathf.Clamp(Vector3.Dot(_body.velocity.normalized,_heading.normalized), 0f, 1.0f);
             _firePower = Mathf.Lerp(_firePower, fireBasePower * (1 + modifier), 0.01f);
         
+            //set fireBar rotation and length
             float angle = Mathf.Atan2(_heading.y, _heading.x);
             _fbRotationPivot.transform.rotation = Quaternion.Euler(0f, 0f, angle * Mathf.Rad2Deg);
-            _fbScalePivot.transform.localScale = new Vector3(_firePower, 1.0f, 1.0f);
+            _fbScalePivot.transform.localScale = new Vector3(_firePower, _firePower, 1.0f);
+            //_fbScalePivot.transform.localScale = new Vector3(_firePower, 1.0f, 1.0f);
             _fireBar.gameObject.GetComponent<SpriteRenderer>().color = new Color(1.0f, _firePower/fireBasePower-1.0f, 0f);
         }
     }

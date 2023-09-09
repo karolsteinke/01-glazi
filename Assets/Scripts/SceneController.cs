@@ -30,7 +30,7 @@ public class SceneController : MonoBehaviour
         Physics2D.IgnoreLayerCollision(6, 6);
 
         Messenger<BroadcastingPickup>.AddListener(GameEvent.PICKUP_COLLECTED, UpdatePickups);
-        Messenger.AddListener(GameEvent.PLAYER_HIT, RestartGame);
+        Messenger.AddListener(GameEvent.PLAYER_HIT, GameOver);
         
         CreateSpawner(MobSpawner.MobTypes.Green, _redSpawnSpots[0]);
         StartCoroutine(CreatePickups());
@@ -38,7 +38,7 @@ public class SceneController : MonoBehaviour
 
     void OnDestroy() {
         Messenger<BroadcastingPickup>.RemoveListener(GameEvent.PICKUP_COLLECTED, UpdatePickups);
-        Messenger.RemoveListener(GameEvent.PLAYER_HIT, RestartGame);
+        Messenger.RemoveListener(GameEvent.PLAYER_HIT, GameOver);
     }
 
     void Update() {
@@ -88,17 +88,15 @@ public class SceneController : MonoBehaviour
         GameObject spawner = Instantiate(spawnerPrefab) as GameObject;
         spawner.GetComponent<MobSpawner>().mobType = mobType;
         spawner.transform.position = pos;
-        /*
-        if (mobType == MobSpawner.MobTypes.Red) {
-            spawner.GetComponent<SpriteRenderer>().color = new Color(1,0,120.0f/255);
-        }
-        else {
-            spawner.GetComponent<SpriteRenderer>().color = new Color(0,160.0f/255,1);
-        }
-        */
     }
 
-    private void RestartGame() {
+    private void GameOver() {
+        //Deactive player
+        GameObject.FindGameObjectWithTag("Player").GetComponent<PlatformerPlayer>().Die();
+    }
+
+    //to be called on button
+    public void RestartGame() {
         SceneManager.LoadScene("Level01");
     }
 }

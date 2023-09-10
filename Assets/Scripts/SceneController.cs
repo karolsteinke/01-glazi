@@ -73,7 +73,7 @@ public class SceneController : MonoBehaviour
     private void UpdatePickups(BroadcastingPickup broadcaster) {
         foreach (BroadcastingPickup pickup in _pickups) {
             if (pickup != null) {
-                //create blue spawner at second pickup (the one which player isn't collecting)
+                //create blue spawner at second pickup (that one which player isn't collecting)
                 if (pickup != broadcaster) {
                     CreateSpawner(MobSpawner.MobTypes.Blue, pickup.transform.position);
                 }
@@ -95,7 +95,7 @@ public class SceneController : MonoBehaviour
         GameObject.FindGameObjectWithTag("Player").GetComponent<PlatformerPlayer>().Die();
     }
 
-    //to be called on button
+    //to be called with button press
     public void RestartGame() {
         SceneManager.LoadScene("Level01");
     }

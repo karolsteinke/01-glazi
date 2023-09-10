@@ -4,7 +4,13 @@ using UnityEngine;
 
 public class HardcodedParticles : MonoBehaviour
 {
+    [SerializeField] private AudioClip particlesSound;
+    private AudioSource _soundSource;
+
     void Start() {
+        _soundSource = GetComponent<AudioSource>();
+        _soundSource.PlayOneShot(particlesSound);
+
         for (int i=0; i < gameObject.transform.childCount; i++) {
             Transform pivot = gameObject.transform.GetChild(i);
             Transform particle = pivot.GetChild(0);

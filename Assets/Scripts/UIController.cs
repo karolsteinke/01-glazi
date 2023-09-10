@@ -5,37 +5,46 @@ using UnityEngine.UI;
 
 public class UIController : MonoBehaviour
 {
+    public int stage {get; private set;} = 0;
     [SerializeField] private Text scoreLabel;
-    [SerializeField] private GameObject EndMessage;
+    [SerializeField] private Text stageLabel;
+    [SerializeField] private GameObject GameOverMesssage;
     private int _score = 0;
 
     void Start()
     {
         Messenger<BroadcastingPickup>.AddListener(GameEvent.PICKUP_COLLECTED, OnPickupCollected);
         Messenger.AddListener(GameEvent.ENEMY_ESCAPED, OnEnemyEscaped);
-        Messenger.AddListener(GameEvent.PLAYER_HIT, ShowEndMessage);
+        Messenger.AddListener(GameEvent.PLAYER_HIT, ShowGameOver);
     }
 
     void OnDestroy() {
         Messenger<BroadcastingPickup>.RemoveListener(GameEvent.PICKUP_COLLECTED, OnPickupCollected);
         Messenger.RemoveListener(GameEvent.ENEMY_ESCAPED, OnEnemyEscaped);
-        Messenger.RemoveListener(GameEvent.PLAYER_HIT, ShowEndMessage);
+        Messenger.RemoveListener(GameEvent.PLAYER_HIT, ShowGameOver);
     }
 
     private void OnPickupCollected(BroadcastingPickup broadcaster) {
         _score++;
+        stage = _score / 3 + 1;
         scoreLabel.text = "" + _score;
+        stageLabel.text = "S T A G E   " + stage;
         if (!scoreLabel.gameObject.activeSelf) {
             scoreLabel.gameObject.SetActive(true);
         }
     }
 
     private void OnEnemyEscaped() {
-        _score--;
-        scoreLabel.text = "" + _score;
+        //decrease score if score is > 0 & game is live
+        if (_score>0 && !GameOverMesssage.activeSelf) {
+            _score--;
+            stage = _score / 3 + 1;
+            scoreLabel.text = "" + _score;
+            stageLabel.text = "S T A G E   " + stage;
+        }
     }
 
-    private void ShowEndMessage() {
-        EndMessage.SetActive(true);
+    private void ShowGameOver() {
+        GameOverMesssage.SetActive(true);
     }
 }

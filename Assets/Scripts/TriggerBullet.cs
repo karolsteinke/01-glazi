@@ -25,6 +25,7 @@ public class TriggerBullet : MonoBehaviour
         //broadcast on player hit or destroy on wall hit
         if (col.GetComponent<PlatformerPlayer>()) {
             Messenger.Broadcast(GameEvent.PLAYER_HIT);
+            Destroy(gameObject);
         }
         else if (col.gameObject.layer == LayerMask.NameToLayer("Map Elements")) {
             Destroy(gameObject);

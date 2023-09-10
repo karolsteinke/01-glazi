@@ -125,3 +125,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   particlesPrefab: {fileID: 1458260708756376285, guid: 75cccb7c320f72947b8db116bfa8c34e, type: 3}
+  pickupSound: {fileID: 8300000, guid: afe7ceffdddd8a54ab048a7c80b0e737, type: 3}

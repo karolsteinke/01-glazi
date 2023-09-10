@@ -11,16 +11,21 @@ public class MobSpawner : MonoBehaviour
     public MobTypes mobType = MobTypes.Green;
     [SerializeField] private float spawnTime = 1.5f;
     [SerializeField] private GameObject[] mobPrefabs = new GameObject[2];
-    private GameObject _mob;
+    private GameObject controller;
 
     void Start() {
         StartCoroutine(SpawnAndDie());
+        controller = GameObject.FindGameObjectWithTag("GameController");
     }
 
     private IEnumerator SpawnAndDie() {
+        GameObject mob;
         yield return new WaitForSeconds(spawnTime);
-        _mob = Instantiate(mobPrefabs[(int)mobType]) as GameObject;
-        _mob.transform.position = transform.position;
+        mob = Instantiate(mobPrefabs[(int)mobType]) as GameObject;
+        mob.transform.position = transform.position;
+        float speedModifier = 0.75f + controller.GetComponent<UIController>().stage*0.25f;
+        mob.GetComponent<WanderingAI>().ScaleSpeedBy(speedModifier);
+        
         Destroy(gameObject);
     }
 

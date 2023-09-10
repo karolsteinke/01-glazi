@@ -6,6 +6,9 @@ public class PlatformerPlayer : MonoBehaviour {
     
     [SerializeField] private float speed = 0.90f;
     [SerializeField] private float jumpForce = 2.2f;
+    [SerializeField] private AudioClip jumpSound;
+    [SerializeField] private AudioClip deathSound;
+    private AudioSource _soundSource;
     private Rigidbody2D _body;
     private Animator _anim;
     private BoxCollider2D _box;
@@ -15,6 +18,7 @@ public class PlatformerPlayer : MonoBehaviour {
         _body = GetComponent<Rigidbody2D>();
         _anim = GetComponent<Animator>();
         _box = GetComponent<BoxCollider2D>();
+        _soundSource = GetComponent<AudioSource>();
     }
 
     //MonoBehaviour.FixedUpdate has the frequency of the physics system (50fps)
@@ -64,6 +68,7 @@ public class PlatformerPlayer : MonoBehaviour {
 
         //jumping
         if (_grounded && Input.GetKeyDown(KeyCode.Z)) {
+            _soundSource.PlayOneShot(jumpSound);
             Vector2 vel = _body.velocity;
             _body.velocity = new Vector2(vel.x, 0);
             _body.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
@@ -76,13 +81,15 @@ public class PlatformerPlayer : MonoBehaviour {
         }
     }
 
-    //to be called by Scene Controller
+    //to be called by Scene Controller on Game Over
     public void Die() {
+        _soundSource.PlayOneShot(deathSound);
         gameObject.GetComponent<SpriteRenderer>().color = new Color(1f,1f,1f,.5f);
         Destroy(_body);
         Destroy(_box);
         Destroy(_anim);
         Destroy(gameObject.GetComponent<StoneCaster>());
+        transform.GetChild(0).gameObject.SetActive(false);
         Destroy(this);
     }
 }

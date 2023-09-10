@@ -73,4 +73,8 @@ public class WanderingAI : MonoBehaviour
             transform.localScale = new Vector3(Mathf.Sign(_velX), transform.localScale.y, transform.localScale.z);
         }
     }
+
+    public void ScaleSpeedBy(float muliplier) {
+        speed *= muliplier;
+    }
 }

@@ -5,16 +5,19 @@ using UnityEngine;
 public class BulletShooter : MonoBehaviour
 {
     [SerializeField] private GameObject bulletPrefab;
+    [SerializeField] private AudioClip shootSound;
     private bool reloading = false;
     private SpriteRenderer _sprite;
     private Shader _shaderGUIText;
     private Shader _shaderSpritesDefault;
     private Color _startColor;
+    private AudioSource _soundSource;
 
     void Start() {
         _sprite = GetComponent<SpriteRenderer>();
         _shaderGUIText = Shader.Find("GUI/Text Shader");
         _shaderSpritesDefault = Shader.Find("Sprites/Default");
+        _soundSource = GetComponent<AudioSource>();
         _startColor = _sprite.color;
     }
 
@@ -33,6 +36,7 @@ public class BulletShooter : MonoBehaviour
         yield return new WaitForSeconds(.1f);
         DimmedSprite();
 
+        _soundSource.PlayOneShot(shootSound);
         GameObject bullet = Instantiate(bulletPrefab) as GameObject;
         bullet.transform.position = new Vector3(
             transform.position.x + transform.localScale.x * 0.08f,

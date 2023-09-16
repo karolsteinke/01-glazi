@@ -8,7 +8,7 @@ public class UIController : MonoBehaviour
     public int stage {get; private set;} = 0;
     [SerializeField] private Text scoreLabel;
     [SerializeField] private Text stageLabel;
-    [SerializeField] private GameObject GameOverMesssage;
+    [SerializeField] private GameObject gameOverMesssage;
     private int _score = 0;
 
     void Start()
@@ -36,7 +36,7 @@ public class UIController : MonoBehaviour
 
     private void OnEnemyEscaped() {
         //decrease score if score is > 0 & game is live
-        if (_score>0 && !GameOverMesssage.activeSelf) {
+        if (_score>0 && !gameOverMesssage.activeSelf) {
             _score--;
             stage = _score / 3 + 1;
             scoreLabel.text = "" + _score;
@@ -45,6 +45,6 @@ public class UIController : MonoBehaviour
     }
 
     private void ShowGameOver() {
-        GameOverMesssage.SetActive(true);
+        gameOverMesssage.SetActive(true);
     }
 }

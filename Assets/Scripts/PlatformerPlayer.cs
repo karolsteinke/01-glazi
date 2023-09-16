@@ -36,7 +36,6 @@ public class PlatformerPlayer : MonoBehaviour {
             transform.localScale = new Vector3(Mathf.Sign(velX),1,1);
         }
 
- 
         //turn off gravity when idle to stop sliding off slopes
         //velocity.y is also considered to make sure player is not flying upwards slowly
         if ((_grounded && velX == 0) && _body.velocity.y <= 0) {
